@@ -1,14 +1,27 @@
 import express from'express'
 const app = express();
 
+import path from 'path'
+import { ENV } from './config/env.js';
+const __dirname = path.resolve()
 
-const port =3000;
-
+const PORT = ENV.PORT || 5000
 app.get('/api/health',(req,res)=>{
     res.status(200).json({message:"Sucess"})
 });
 
-app.listen(port,()=>{
-    console.log("server is running ");
+// make our app to deployment ready
+
+if(ENV.NODE_ENV==='production'){
+  app.use(express.static(path.join(__dirname,'../admin/dist')));
+
+  app.get("/{*any}",(req,res)=>{
+    res.sendFile(path.join(__dirname,"../admin", "dist","index.html"))
+  })
+}
+
+
+app.listen(PORT,()=>{
+    console.log(`server is running ${PORT}`);
     
 })
