@@ -1,4 +1,4 @@
-import { Inngest } from 'Inngest'
+import { Inngest } from 'inngest'
 import { connectDB } from './db.js'
 import { User } from '../models/user.model.js'
 
@@ -14,13 +14,13 @@ const syncUser = inngest.createFunction(
 
         const newUser = {
             clerkId: id,
-            email: emai_addresses[0]?.emai_addresses,
-            name: $`{first_name || ''}|${last_name || ""}` || "User",
-            imageUrl: img_url,
+            email: email_addresses[0]?.emai_addresses,
+            name: `${first_name || ''}|${last_name || ""}` || "User",
+            imageUrl: image_url,
             addresses: [],
             wishlist: []
         }
-
+          console.log("inngest.js function file calling and sync user to db")
         await User.create(newUser);
     }
 );
